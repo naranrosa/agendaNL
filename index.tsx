@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, createContext, useContext } from 'react';
 import { createRoot } from 'react-dom/client';
 import Chart from 'chart.js/auto';
-import { supabase } from './supabaseClient'; // VERIFIQUE SE O CAMINHO ESTÁ CORRETO
+import { supabase } from './supabaseClient';
 import type { Session } from '@supabase/supabase-js';
 
 // --- DATA TYPES --- //
