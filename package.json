@@ -1,0 +1,24 @@
+{
+  "name": "dr",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "chart.js": "^4.5.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
