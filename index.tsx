@@ -63,16 +63,29 @@ const useToast = () => {
     return context;
 };
 
+// ------ [INÍCIO DA CORREÇÃO] ------
+// Aplicamos useCallback e useMemo para evitar re-renderizações desnecessárias
+// que estavam causando o loop infinito.
 const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [toasts, setToasts] = useState<ToastMessage[]>([]);
-    const addToast = (message: string, type: ToastType) => {
+
+    const addToast = useCallback((message: string, type: ToastType) => {
         const id = Date.now();
         setToasts(prev => [...prev, { id, message, type }]);
         setTimeout(() => setToasts(prev => prev.filter(toast => toast.id !== id)), 5000);
-    };
-    const removeToast = (id: number) => setToasts(prev => prev.filter(toast => toast.id !== id));
+    }, []); // Dependência vazia: a função nunca será recriada
+
+    const removeToast = useCallback((id: number) => {
+        setToasts(prev => prev.filter(toast => toast.id !== id));
+    }, []); // Dependência vazia: a função nunca será recriada
+
+    // Memoriza o objeto de valor do contexto
+    const contextValue = useMemo(() => ({
+        addToast
+    }), [addToast]);
+
     return (
-        <ToastContext.Provider value={{ addToast }}>
+        <ToastContext.Provider value={contextValue}>
             {children}
             <div className="toast-container">
                 {toasts.map(toast => (
@@ -86,6 +99,7 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         </ToastContext.Provider>
     );
 };
+// ------ [FIM DA CORREÇÃO] ------
 
 const getDoctorById = (id: string, doctors: Doctor[]) => doctors.find(d => d.id === id);
 
